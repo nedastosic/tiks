@@ -19,7 +19,7 @@ namespace SkiPass
 
             var start = new StartAdapterSkiPass
             {
-                ConnectionString = "SkiPass:Persist security info=false;Integrated security=SSPI;Data source=DESKTOP-HMK35GO;Initial catalog=SkiPass"
+                ConnectionString = "Persist security info=false;Integrated security=SSPI;Data source=DESKTOP-HMK35GO;Initial catalog=SkiPass"
             };
 
             Application.Run(start.Create());

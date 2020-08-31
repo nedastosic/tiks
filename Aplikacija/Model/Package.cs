@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SkiPass.Model
 {
-    public class PaketSkiPass
+    public class Package
     {
-        public string Regije { get; set; }
-        public decimal Cena { get; set; }
+        public int PackageID { get; set; }
+        public string Name { get; set; }
     }
 }

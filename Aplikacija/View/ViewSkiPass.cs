@@ -13,20 +13,24 @@ namespace SkiPass.View
     {
         private ToolStripMenuItem korisnikToolStripMenuItem;
         private ToolStripMenuItem registrujNovogKorisnikaToolStripMenuItem;
-        private ComboBox cboKorisnik;
+        private ComboBox cboUser;
         private Label label1;
-        private ComboBox cboSkiPass;
+        private ComboBox cboPackage;
         private TextBox textBox1;
         private Label label2;
         private Label label3;
-        private DateTimePicker datDatumOd;
+        private DateTimePicker datDateFrom;
         private Label label4;
-        private DateTimePicker datDatumDo;
+        private DateTimePicker datDateTo;
         private Label label5;
         private Button btnZapisi;
         private MenuStrip menuStrip1;
 
-        public event EventHandler Init;
+        public event EventHandler<EventArgsRental> EventHendlerInsertRental;
+        public ViewSkiPass()
+        {
+            InitializeComponent();
+        }
 
         public void ErrorMessage(string message)
         {
@@ -48,22 +52,20 @@ namespace SkiPass.View
                 MessageBoxIcon.Information);
         }
 
-        public void Initialize()
+        public void NapuniComboKorisnik(List<User> list)
         {
-            EventHelper.Raise(this, Init);
+            cboUser.DataSource = null;
+            cboUser.DataSource = list;
+            cboUser.ValueMember = "KorisnikID";
+            cboUser.DisplayMember = "Fullname";
         }
 
-        public void NapuniComboKorisnik(List<Korisnik> list)
+        public void NapuniComboPaketi(List<Package> list)
         {
-            cboKorisnik.DataSource = null;
-            cboKorisnik.DataSource = list;
-            cboKorisnik.ValueMember = "KorisnikID";
-            cboKorisnik.DisplayMember = "ImePrezime";
-        }
-
-        public void NapuniComboPaketi(List<PaketSkiPass> value)
-        {
-            throw new NotImplementedException();
+            cboPackage.DataSource = null;
+            cboPackage.DataSource = list;
+            cboPackage.ValueMember = "PackageID";
+            cboPackage.DisplayMember = "Name";
         }
 
         private void InitializeComponent()
@@ -71,15 +73,15 @@ namespace SkiPass.View
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.korisnikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrujNovogKorisnikaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cboKorisnik = new System.Windows.Forms.ComboBox();
+            this.cboUser = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.cboSkiPass = new System.Windows.Forms.ComboBox();
+            this.cboPackage = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.datDatumOd = new System.Windows.Forms.DateTimePicker();
+            this.datDateFrom = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.datDatumDo = new System.Windows.Forms.DateTimePicker();
+            this.datDateTo = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.btnZapisi = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -92,7 +94,7 @@ namespace SkiPass.View
             this.korisnikToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(391, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(391, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -101,7 +103,7 @@ namespace SkiPass.View
             this.korisnikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.registrujNovogKorisnikaToolStripMenuItem});
             this.korisnikToolStripMenuItem.Name = "korisnikToolStripMenuItem";
-            this.korisnikToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
+            this.korisnikToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.korisnikToolStripMenuItem.Text = "Korisnik";
             // 
             // registrujNovogKorisnikaToolStripMenuItem
@@ -109,15 +111,15 @@ namespace SkiPass.View
             this.registrujNovogKorisnikaToolStripMenuItem.Name = "registrujNovogKorisnikaToolStripMenuItem";
             this.registrujNovogKorisnikaToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
             this.registrujNovogKorisnikaToolStripMenuItem.Text = "Registruj novog korisnika";
-            this.registrujNovogKorisnikaToolStripMenuItem.Click += new System.EventHandler(this.registrujNovogKorisnikaToolStripMenuItem_Click);
+            this.registrujNovogKorisnikaToolStripMenuItem.Click += new System.EventHandler(this.RegistrujNovogKorisnikaToolStripMenuItem_Click);
             // 
             // cboKorisnik
             // 
-            this.cboKorisnik.FormattingEnabled = true;
-            this.cboKorisnik.Location = new System.Drawing.Point(51, 104);
-            this.cboKorisnik.Name = "cboKorisnik";
-            this.cboKorisnik.Size = new System.Drawing.Size(265, 24);
-            this.cboKorisnik.TabIndex = 2;
+            this.cboUser.FormattingEnabled = true;
+            this.cboUser.Location = new System.Drawing.Point(51, 104);
+            this.cboUser.Name = "cboKorisnik";
+            this.cboUser.Size = new System.Drawing.Size(265, 24);
+            this.cboUser.TabIndex = 2;
             // 
             // label1
             // 
@@ -128,13 +130,13 @@ namespace SkiPass.View
             this.label1.TabIndex = 3;
             this.label1.Text = "Korisnik:";
             // 
-            // cboSkiPass
+            // cboPaketi
             // 
-            this.cboSkiPass.FormattingEnabled = true;
-            this.cboSkiPass.Location = new System.Drawing.Point(51, 168);
-            this.cboSkiPass.Name = "cboSkiPass";
-            this.cboSkiPass.Size = new System.Drawing.Size(265, 24);
-            this.cboSkiPass.TabIndex = 5;
+            this.cboPackage.FormattingEnabled = true;
+            this.cboPackage.Location = new System.Drawing.Point(51, 168);
+            this.cboPackage.Name = "cboPaketi";
+            this.cboPackage.Size = new System.Drawing.Size(265, 24);
+            this.cboPackage.TabIndex = 5;
             // 
             // textBox1
             // 
@@ -163,11 +165,11 @@ namespace SkiPass.View
             // 
             // datDatumOd
             // 
-            this.datDatumOd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datDatumOd.Location = new System.Drawing.Point(51, 282);
-            this.datDatumOd.Name = "datDatumOd";
-            this.datDatumOd.Size = new System.Drawing.Size(164, 22);
-            this.datDatumOd.TabIndex = 9;
+            this.datDateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datDateFrom.Location = new System.Drawing.Point(51, 282);
+            this.datDateFrom.Name = "datDatumOd";
+            this.datDateFrom.Size = new System.Drawing.Size(164, 22);
+            this.datDateFrom.TabIndex = 9;
             // 
             // label4
             // 
@@ -180,11 +182,11 @@ namespace SkiPass.View
             // 
             // datDatumDo
             // 
-            this.datDatumDo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datDatumDo.Location = new System.Drawing.Point(51, 343);
-            this.datDatumDo.Name = "datDatumDo";
-            this.datDatumDo.Size = new System.Drawing.Size(164, 22);
-            this.datDatumDo.TabIndex = 11;
+            this.datDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datDateTo.Location = new System.Drawing.Point(51, 343);
+            this.datDateTo.Name = "datDatumDo";
+            this.datDateTo.Size = new System.Drawing.Size(164, 22);
+            this.datDateTo.TabIndex = 11;
             // 
             // label5
             // 
@@ -203,21 +205,22 @@ namespace SkiPass.View
             this.btnZapisi.TabIndex = 13;
             this.btnZapisi.Text = "Zapiši";
             this.btnZapisi.UseVisualStyleBackColor = true;
+            this.btnZapisi.Click += new System.EventHandler(this.BtnZapisi_Click);
             // 
             // ViewSkiPass
             // 
             this.ClientSize = new System.Drawing.Size(391, 488);
             this.Controls.Add(this.btnZapisi);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.datDatumDo);
+            this.Controls.Add(this.datDateTo);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.datDatumOd);
+            this.Controls.Add(this.datDateFrom);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.cboSkiPass);
+            this.Controls.Add(this.cboPackage);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.cboKorisnik);
+            this.Controls.Add(this.cboUser);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ViewSkiPass";
@@ -229,9 +232,23 @@ namespace SkiPass.View
 
         }
 
-        private void registrujNovogKorisnikaToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RegistrujNovogKorisnikaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using (ViewKorisnik form = new ViewKorisnik())
+            { 
+                
+            }
+        }
 
+        private void BtnZapisi_Click(object sender, EventArgs e)
+        {
+            EventHelper.Raise(this, EventHendlerInsertRental, new EventArgsRental()
+            {
+                DateFrom = Convert.ToDateTime(datDateFrom.Value),
+                DateTo = Convert.ToDateTime(datDateTo.Value),
+                Package = cboPackage.SelectedItem as Package,
+                User = cboUser.SelectedItem as User
+            });
         }
     }
 }

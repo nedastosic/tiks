@@ -46,9 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Event\EventArgsRental.cs" />
     <Compile Include="Event\EventHelper.cs" />
-    <Compile Include="Model\Korisnik.cs" />
-    <Compile Include="Model\PaketSkiPass.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Model\Package.cs" />
     <Compile Include="Presenter\BasePresenter.cs" />
     <Compile Include="Presenter\PresenterSkiPass.cs" />
     <Compile Include="Presenter\StartAdapterSkiPass.cs" />

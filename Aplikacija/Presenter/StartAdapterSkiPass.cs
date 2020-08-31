@@ -21,7 +21,7 @@ namespace SkiPass.Presenter
             BasePresenter presenter = new PresenterSkiPass(view, service);
 
             presenter.ConnectionString = ConnectionString;
-
+            presenter.Init();
             return (Form)view;
         }
 

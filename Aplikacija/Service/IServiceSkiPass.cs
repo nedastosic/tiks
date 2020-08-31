@@ -9,7 +9,7 @@ namespace SkiPass.Service
     public interface IServiceSkiPass
     {
         IDictionary<string, string> Connections { get; set; }
-        ServiceResult GetAllKorisnici();
-        ServiceResult GetAllPaketi();
+        ServiceResult SelectUsers();
+        ServiceResult SelectPackages();
     }
 }

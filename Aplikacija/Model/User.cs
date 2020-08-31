@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace SkiPass.Model
 {
-    public class Korisnik
+    public class User
     {
         public int KorisnikID { get; set; }
-        public string Ime { get; set; }
-        public string Prezime { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
         public string JMBG { get; set; }
-        public string Telefon { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
-        public DateTime? DatumRodjenja { get; set; }
-        public string FullName {
+        public DateTime? DateOfBirth { get; set; }
+        public string Fullname {
             get
             {
-                return Ime + " " + Prezime;
+                return Firstname + " " + Lastname;
             }
         }
     }

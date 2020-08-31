@@ -20,12 +20,12 @@ namespace SkiPass.Service
 
         public IDictionary<string, string> Connections { get ; set ; }
 
-        public ServiceResult GetAllKorisnici()
+        public ServiceResult SelectUsers()
         {
             ServiceResult result = new ServiceResult();
-            List<Korisnik> list = new List<Korisnik>();
+            List<User> list = new List<User>();
             using (var conn = new SqlConnection(ConnectionString))
-            using (var command = new SqlCommand("SelectKorisnik", conn)
+            using (var command = new SqlCommand("SelectUser", conn)
             {
                 CommandType = CommandType.StoredProcedure
             })
@@ -36,14 +36,14 @@ namespace SkiPass.Service
                 {
                     while (reader.Read())
                     {
-                        Korisnik korisnik = new Korisnik()
+                        User korisnik = new User()
                         {
                             KorisnikID = Convert.ToInt32(reader["UserID"]),
-                            Ime = Convert.ToString(reader["Firstname"]),
-                            DatumRodjenja = Convert.ToDateTime(reader["DateOfBirth"]),
-                            Prezime = Convert.ToString(reader["Lastname"]),
+                            Firstname = Convert.ToString(reader["Firstname"]),
+                            DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
+                            Lastname = Convert.ToString(reader["Lastname"]),
                             JMBG = Convert.ToString(reader["JMBG"]),
-                            Telefon = Convert.ToString(reader["Phone"]),
+                            Phone = Convert.ToString(reader["Phone"]),
                             Email = Convert.ToString(reader["Email"]),
                         };
                         list.Add(korisnik);
@@ -61,9 +61,40 @@ namespace SkiPass.Service
             return result;
         }
 
-        public ServiceResult GetAllPaketi()
+        public ServiceResult SelectPackages()
         {
-            throw new NotImplementedException();
+            ServiceResult result = new ServiceResult();
+            List<Package> list = new List<Package>();
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("SelectPaket", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        Package package = new Package()
+                        {
+                            PackageID = Convert.ToInt32(reader["PackageID"]),
+                            Name = Convert.ToString(reader["Name"])
+                        };
+                        list.Add(package);
+                    }
+                    result.Value = list;
+                    result.isValid = true;
+                    result.Message = "Uspesno obavljeno.";
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+
+            return result;
         }
     }
 }
