@@ -25,11 +25,37 @@ namespace SkiPass.Presenter
         {
             _view.EventHendlerInsertRental -= EventHendlerInsertRental;
             _view.EventHendlerInsertRental += EventHendlerInsertRental;
+
+            _view.EventHendlerSaveUser -= EventHendlerSaveUser;
+            _view.EventHendlerSaveUser += EventHendlerSaveUser;
+
+            _view.EventHendlerRefresh -= EventHendlerRefresh;
+            _view.EventHendlerRefresh += EventHendlerRefresh;
+    }
+
+        private void EventHendlerRefresh(object sender, EventArgs e)
+        {
+            NapuniComboKorisnik();
+        }
+
+        private void EventHendlerSaveUser(object sender, EventArgsUser e)
+        {
+            ServiceResult result = _service.SaveUpadateUser(e.User);
+
+            if (result.isValid)
+                _view.InformationMessage(result.Message);
+            else
+                _view.ErrorMessage(result.Message);
         }
 
         private void EventHendlerInsertRental(object sender, EventArgsRental e)
         {
-            
+            ServiceResult result = _service.InsertRental(e.DateFrom, e.DateTo, e.Package, e.User);
+
+            if (result.isValid)
+                _view.InformationMessage(result.Message);
+            else
+                _view.ErrorMessage(result.Message);
         }
 
         public override void Init()

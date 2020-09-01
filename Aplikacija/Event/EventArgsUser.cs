@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkiPass.Event;
 using SkiPass.Model;
 
-namespace SkiPass.View
+namespace SkiPass.Event
 {
-    interface IVIewKorisnik
+    public class EventArgsUser: EventArgs
     {
-        event EventHandler<EventArgsUser> EventHendlerSaveUser;
+        public User User { get; set; }
     }
 }

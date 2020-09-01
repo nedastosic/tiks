@@ -24,9 +24,12 @@ namespace SkiPass.View
         private DateTimePicker datDateTo;
         private Label label5;
         private Button btnZapisi;
+        private ToolStripMenuItem izmeniKorisnikaToolStripMenuItem;
         private MenuStrip menuStrip1;
 
         public event EventHandler<EventArgsRental> EventHendlerInsertRental;
+        public event EventHandler<EventArgsUser> EventHendlerSaveUser;
+        public event EventHandler EventHendlerRefresh;
         public ViewSkiPass()
         {
             InitializeComponent();
@@ -56,7 +59,7 @@ namespace SkiPass.View
         {
             cboUser.DataSource = null;
             cboUser.DataSource = list;
-            cboUser.ValueMember = "KorisnikID";
+            cboUser.ValueMember = "UserID";
             cboUser.DisplayMember = "Fullname";
         }
 
@@ -84,6 +87,7 @@ namespace SkiPass.View
             this.datDateTo = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.btnZapisi = new System.Windows.Forms.Button();
+            this.izmeniKorisnikaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,7 +105,8 @@ namespace SkiPass.View
             // korisnikToolStripMenuItem
             // 
             this.korisnikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.registrujNovogKorisnikaToolStripMenuItem});
+            this.registrujNovogKorisnikaToolStripMenuItem,
+            this.izmeniKorisnikaToolStripMenuItem});
             this.korisnikToolStripMenuItem.Name = "korisnikToolStripMenuItem";
             this.korisnikToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.korisnikToolStripMenuItem.Text = "Korisnik";
@@ -113,11 +118,11 @@ namespace SkiPass.View
             this.registrujNovogKorisnikaToolStripMenuItem.Text = "Registruj novog korisnika";
             this.registrujNovogKorisnikaToolStripMenuItem.Click += new System.EventHandler(this.RegistrujNovogKorisnikaToolStripMenuItem_Click);
             // 
-            // cboKorisnik
+            // cboUser
             // 
             this.cboUser.FormattingEnabled = true;
             this.cboUser.Location = new System.Drawing.Point(51, 104);
-            this.cboUser.Name = "cboKorisnik";
+            this.cboUser.Name = "cboUser";
             this.cboUser.Size = new System.Drawing.Size(265, 24);
             this.cboUser.TabIndex = 2;
             // 
@@ -130,11 +135,11 @@ namespace SkiPass.View
             this.label1.TabIndex = 3;
             this.label1.Text = "Korisnik:";
             // 
-            // cboPaketi
+            // cboPackage
             // 
             this.cboPackage.FormattingEnabled = true;
             this.cboPackage.Location = new System.Drawing.Point(51, 168);
-            this.cboPackage.Name = "cboPaketi";
+            this.cboPackage.Name = "cboPackage";
             this.cboPackage.Size = new System.Drawing.Size(265, 24);
             this.cboPackage.TabIndex = 5;
             // 
@@ -163,11 +168,11 @@ namespace SkiPass.View
             this.label3.TabIndex = 8;
             this.label3.Text = "Cena paketa:";
             // 
-            // datDatumOd
+            // datDateFrom
             // 
             this.datDateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.datDateFrom.Location = new System.Drawing.Point(51, 282);
-            this.datDateFrom.Name = "datDatumOd";
+            this.datDateFrom.Name = "datDateFrom";
             this.datDateFrom.Size = new System.Drawing.Size(164, 22);
             this.datDateFrom.TabIndex = 9;
             // 
@@ -180,11 +185,11 @@ namespace SkiPass.View
             this.label4.TabIndex = 10;
             this.label4.Text = "Datum od:";
             // 
-            // datDatumDo
+            // datDateTo
             // 
             this.datDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.datDateTo.Location = new System.Drawing.Point(51, 343);
-            this.datDateTo.Name = "datDatumDo";
+            this.datDateTo.Name = "datDateTo";
             this.datDateTo.Size = new System.Drawing.Size(164, 22);
             this.datDateTo.TabIndex = 11;
             // 
@@ -206,6 +211,13 @@ namespace SkiPass.View
             this.btnZapisi.Text = "Zapiši";
             this.btnZapisi.UseVisualStyleBackColor = true;
             this.btnZapisi.Click += new System.EventHandler(this.BtnZapisi_Click);
+            // 
+            // izmeniKorisnikaToolStripMenuItem
+            // 
+            this.izmeniKorisnikaToolStripMenuItem.Name = "izmeniKorisnikaToolStripMenuItem";
+            this.izmeniKorisnikaToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
+            this.izmeniKorisnikaToolStripMenuItem.Text = "Izmeni korisnika";
+            this.izmeniKorisnikaToolStripMenuItem.Click += new System.EventHandler(this.IzmeniKorisnikaToolStripMenuItem_Click);
             // 
             // ViewSkiPass
             // 
@@ -235,9 +247,19 @@ namespace SkiPass.View
         private void RegistrujNovogKorisnikaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (ViewKorisnik form = new ViewKorisnik())
-            { 
-                
+            {
+                form.EventHendlerSaveUser -= this.EventHendlerSaveUserChildForm;
+                form.EventHendlerSaveUser += this.EventHendlerSaveUserChildForm;
+                form.ShowDialog();
             }
+        }
+
+        private void EventHendlerSaveUserChildForm(object sender, EventArgsUser e)
+        {
+            EventHelper.Raise(this, EventHendlerSaveUser, new EventArgsUser()
+            {
+                User = e.User
+            });
         }
 
         private void BtnZapisi_Click(object sender, EventArgs e)
@@ -249,6 +271,30 @@ namespace SkiPass.View
                 Package = cboPackage.SelectedItem as Package,
                 User = cboUser.SelectedItem as User
             });
+        }
+
+        private void IzmeniKorisnikaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cboUser.SelectedItem is null)
+            {
+                InformationMessage("Morate izabrati korisnika iz combo box-a.");
+                return;
+            }
+
+            using (ViewKorisnik form = new ViewKorisnik())
+            {
+                form.EventHendlerSaveUser -= this.EventHendlerSaveUserChildForm;
+                form.EventHendlerSaveUser += this.EventHendlerSaveUserChildForm;
+                form.NapuniFormu(cboUser.SelectedItem as User);
+                form.ShowDialog();
+            }
+
+            RefreshForm();
+        }
+
+        private void RefreshForm()
+        {
+            EventHelper.Raise(this, EventHendlerRefresh);
         }
     }
 }

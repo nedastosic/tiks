@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Event\EventArgsRental.cs" />
+    <Compile Include="Event\EventArgsUser.cs" />
     <Compile Include="Event\EventHelper.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Package.cs" />

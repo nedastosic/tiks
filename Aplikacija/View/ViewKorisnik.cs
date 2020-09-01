@@ -4,15 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SkiPass.Event;
+using SkiPass.Model;
 
 namespace SkiPass.View
 {
     public class ViewKorisnik: Form, IVIewKorisnik
     {
-        private TextBox txtIme;
-        private TextBox txtPrezime;
+        public int? UserID { get; set; }
+        public ViewKorisnik()
+        {
+            InitializeComponent();
+        }
+        private TextBox txtFirstname;
+        private TextBox txtLastname;
         private TextBox txtJMBG;
-        private TextBox txtTelefon;
+        private TextBox txtPhone;
         private TextBox txtEmail;
         private Label label1;
         private Label label2;
@@ -21,16 +28,18 @@ namespace SkiPass.View
         private Label label5;
         private Label label6;
         private Button btnZapisi;
-        private DateTimePicker datDatumRodjenja;
+        private DateTimePicker datDateOfBirtf;
+
+        public event EventHandler<EventArgsUser> EventHendlerSaveUser;
 
         private void InitializeComponent()
         {
-            this.txtIme = new System.Windows.Forms.TextBox();
-            this.txtPrezime = new System.Windows.Forms.TextBox();
+            this.txtFirstname = new System.Windows.Forms.TextBox();
+            this.txtLastname = new System.Windows.Forms.TextBox();
             this.txtJMBG = new System.Windows.Forms.TextBox();
-            this.txtTelefon = new System.Windows.Forms.TextBox();
+            this.txtPhone = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.datDatumRodjenja = new System.Windows.Forms.DateTimePicker();
+            this.datDateOfBirtf = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,17 +51,17 @@ namespace SkiPass.View
             // 
             // txtIme
             // 
-            this.txtIme.Location = new System.Drawing.Point(103, 71);
-            this.txtIme.Name = "txtIme";
-            this.txtIme.Size = new System.Drawing.Size(224, 22);
-            this.txtIme.TabIndex = 0;
+            this.txtFirstname.Location = new System.Drawing.Point(103, 71);
+            this.txtFirstname.Name = "txtIme";
+            this.txtFirstname.Size = new System.Drawing.Size(224, 22);
+            this.txtFirstname.TabIndex = 0;
             // 
             // txtPrezime
             // 
-            this.txtPrezime.Location = new System.Drawing.Point(103, 130);
-            this.txtPrezime.Name = "txtPrezime";
-            this.txtPrezime.Size = new System.Drawing.Size(224, 22);
-            this.txtPrezime.TabIndex = 1;
+            this.txtLastname.Location = new System.Drawing.Point(103, 130);
+            this.txtLastname.Name = "txtPrezime";
+            this.txtLastname.Size = new System.Drawing.Size(224, 22);
+            this.txtLastname.TabIndex = 1;
             // 
             // txtJMBG
             // 
@@ -63,10 +72,10 @@ namespace SkiPass.View
             // 
             // txtTelefon
             // 
-            this.txtTelefon.Location = new System.Drawing.Point(103, 302);
-            this.txtTelefon.Name = "txtTelefon";
-            this.txtTelefon.Size = new System.Drawing.Size(224, 22);
-            this.txtTelefon.TabIndex = 3;
+            this.txtPhone.Location = new System.Drawing.Point(103, 302);
+            this.txtPhone.Name = "txtTelefon";
+            this.txtPhone.Size = new System.Drawing.Size(224, 22);
+            this.txtPhone.TabIndex = 3;
             // 
             // txtEmail
             // 
@@ -77,11 +86,11 @@ namespace SkiPass.View
             // 
             // datDatumRodjenja
             // 
-            this.datDatumRodjenja.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datDatumRodjenja.Location = new System.Drawing.Point(103, 187);
-            this.datDatumRodjenja.Name = "datDatumRodjenja";
-            this.datDatumRodjenja.Size = new System.Drawing.Size(224, 22);
-            this.datDatumRodjenja.TabIndex = 5;
+            this.datDateOfBirtf.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datDateOfBirtf.Location = new System.Drawing.Point(103, 187);
+            this.datDateOfBirtf.Name = "datDatumRodjenja";
+            this.datDateOfBirtf.Size = new System.Drawing.Size(224, 22);
+            this.datDateOfBirtf.TabIndex = 5;
             // 
             // label1
             // 
@@ -139,7 +148,7 @@ namespace SkiPass.View
             // 
             // btnZapisi
             // 
-            this.btnZapisi.Location = new System.Drawing.Point(158, 412);
+            this.btnZapisi.Location = new System.Drawing.Point(211, 413);
             this.btnZapisi.Name = "btnZapisi";
             this.btnZapisi.Size = new System.Drawing.Size(116, 40);
             this.btnZapisi.TabIndex = 13;
@@ -157,12 +166,12 @@ namespace SkiPass.View
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.datDatumRodjenja);
+            this.Controls.Add(this.datDateOfBirtf);
             this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.txtTelefon);
+            this.Controls.Add(this.txtPhone);
             this.Controls.Add(this.txtJMBG);
-            this.Controls.Add(this.txtPrezime);
-            this.Controls.Add(this.txtIme);
+            this.Controls.Add(this.txtLastname);
+            this.Controls.Add(this.txtFirstname);
             this.Name = "ViewKorisnik";
             this.Text = "Registracija korisnika";
             this.ResumeLayout(false);
@@ -172,7 +181,30 @@ namespace SkiPass.View
 
         private void ButtonZapisi_Click(object sender, EventArgs e)
         {
+            EventHelper.Raise(this, EventHendlerSaveUser, new EventArgsUser()
+            {
+                User = new User()
+                {
+                    UserID = UserID,
+                    Firstname = txtFirstname.Text,
+                    Lastname = txtLastname.Text,
+                    DateOfBirth = Convert.ToDateTime(datDateOfBirtf.Value),
+                    Phone = txtPhone.Text,
+                    Email = txtEmail.Text,
+                    JMBG = txtJMBG.Text
+                }
+            });
+        }
 
+        internal void NapuniFormu(User user)
+        {
+            UserID = user.UserID;
+            txtFirstname.Text= user.Firstname;
+            txtLastname.Text = user.Lastname;
+            txtJMBG.Text = user.JMBG;
+            txtPhone.Text = user.Phone;
+            txtEmail.Text = user.Email;
+            datDateOfBirtf.Value = user.DateOfBirth.Value;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace SkiPass.Service
                     {
                         User korisnik = new User()
                         {
-                            KorisnikID = Convert.ToInt32(reader["UserID"]),
+                            UserID = Convert.ToInt32(reader["UserID"]),
                             Firstname = Convert.ToString(reader["Firstname"]),
                             DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
                             Lastname = Convert.ToString(reader["Lastname"]),
@@ -94,6 +94,80 @@ namespace SkiPass.Service
                 }
             }
 
+            return result;
+        }
+
+        public ServiceResult SaveUpadateUser(User user)
+        {
+            ServiceResult result = new ServiceResult();
+            
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("dbo.[SkiPass.InsertUser]", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                if(user.UserID.HasValue)
+                    command.Parameters.Add(new SqlParameter("@UserID", SqlDbType.BigInt)).Value = user.UserID;
+                command.Parameters.Add(new SqlParameter("@Firstname", SqlDbType.NVarChar)).Value = user.Firstname;
+                command.Parameters.Add(new SqlParameter("@Lastname", SqlDbType.NVarChar)).Value = user.Lastname;
+                command.Parameters.Add(new SqlParameter("@JMBG", SqlDbType.NVarChar)).Value = user.JMBG;
+                command.Parameters.Add(new SqlParameter("@DateOfBirth", SqlDbType.DateTime)).Value = user.DateOfBirth;
+                command.Parameters.Add(new SqlParameter("@Phone", SqlDbType.NVarChar)).Value = user.Phone;
+                command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar)).Value = user.Email;
+                conn.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    result.isValid = false;
+                    result.Message = ex.Message;
+                    return result;
+                }
+                finally
+                {
+                }
+            }
+            result.Message = "Uspešno obavljeno.";
+            return result;
+        }
+
+        public ServiceResult InsertRental(DateTime dateFrom, DateTime dateTo, Package package, User user)
+        {
+            ServiceResult result = new ServiceResult();
+
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("dbo.[SkiPass.InsertUser]", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                if (user.UserID.HasValue)
+                    command.Parameters.Add(new SqlParameter("@UserID", SqlDbType.BigInt)).Value = user.UserID;
+                command.Parameters.Add(new SqlParameter("@Firstname", SqlDbType.NVarChar)).Value = user.Firstname;
+                command.Parameters.Add(new SqlParameter("@Lastname", SqlDbType.NVarChar)).Value = user.Lastname;
+                command.Parameters.Add(new SqlParameter("@JMBG", SqlDbType.NVarChar)).Value = user.JMBG;
+                command.Parameters.Add(new SqlParameter("@DateOfBirth", SqlDbType.DateTime)).Value = user.DateOfBirth;
+                command.Parameters.Add(new SqlParameter("@Phone", SqlDbType.NVarChar)).Value = user.Phone;
+                command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar)).Value = user.Email;
+                conn.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    result.isValid = false;
+                    result.Message = ex.Message;
+                    return result;
+                }
+                finally
+                {
+                }
+            }
+            result.Message = "Uspešno obavljeno.";
             return result;
         }
     }

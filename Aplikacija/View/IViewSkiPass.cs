@@ -11,6 +11,9 @@ namespace SkiPass.View
     public interface IViewSkiPass
     {
         event EventHandler<EventArgsRental> EventHendlerInsertRental;
+        event EventHandler<EventArgsUser> EventHendlerSaveUser;
+        event EventHandler EventHendlerRefresh;
+
         void ErrorMessage(string message);
         void InformationMessage(string message);
         void NapuniComboKorisnik(List<User> value);
