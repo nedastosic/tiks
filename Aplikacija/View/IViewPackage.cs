@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SkiPass.Event;
-using SkiPass.Model;
 
 namespace SkiPass.View
 {
-    interface IVIewKorisnik
+    public interface IViewPackage
     {
-        event EventHandler<EventArgsUser> EventHendlerSaveUser;
+        event EventHandler<EventArgsPackage> EventHendlerSavePackage;
     }
 }

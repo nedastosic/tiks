@@ -31,7 +31,20 @@ namespace SkiPass.Presenter
 
             _view.EventHendlerRefresh -= EventHendlerRefresh;
             _view.EventHendlerRefresh += EventHendlerRefresh;
+
+            _view.EventHendlerSavePackage -= EventHendlerSavePackage;
+            _view.EventHendlerSavePackage += EventHendlerSavePackage;
     }
+
+        private void EventHendlerSavePackage(object sender, EventArgsPackage e)
+        {
+            ServiceResult result = _service.InsertPackageRegion(e.Package, e.Regions);
+
+            if (result.IsValid)
+                _view.ErrorMessage(result.Message);
+            else
+                _view.InformationMessage(result.Message);
+        }
 
         private void EventHendlerRefresh(object sender, EventArgs e)
         {
@@ -42,7 +55,7 @@ namespace SkiPass.Presenter
         {
             ServiceResult result = _service.SaveUpadateUser(e.User);
 
-            if (result.isValid)
+            if (result.IsValid)
                 _view.InformationMessage(result.Message);
             else
                 _view.ErrorMessage(result.Message);
@@ -52,16 +65,35 @@ namespace SkiPass.Presenter
         {
             ServiceResult result = _service.InsertRental(e.DateFrom, e.DateTo, e.Package, e.User);
 
-            if (result.isValid)
+            if (result.IsValid)
+            {
                 _view.InformationMessage(result.Message);
+                UcitajGenerisanuCenu((int)result.Value);
+            }
             else
                 _view.ErrorMessage(result.Message);
+
+        }
+
+        private void UcitajGenerisanuCenu(int idSkiPass)
+        {
+            ServiceResult result = _service.SelectSkiPass(idSkiPass);
+            if (result.IsValid)
+                _view.ShowPrice((decimal)result.Value);
         }
 
         public override void Init()
         {
             NapuniComboKorisnik();
             NapuniComboPaketiSP();
+            GetAllRegions();
+        }
+
+        private void GetAllRegions()
+        {
+            ServiceResult result = _service.SelectRegions();
+            if (result.IsValid)
+                _view.SetRegions((List<Region>)result.Value);
         }
 
         private void NapuniComboPaketiSP()

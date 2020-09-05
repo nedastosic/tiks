@@ -9,10 +9,10 @@ using SkiPass.Model;
 
 namespace SkiPass.View
 {
-    public class ViewKorisnik: Form, IVIewKorisnik
+    public class ViewUser: Form, IVIewUser
     {
         public int? UserID { get; set; }
-        public ViewKorisnik()
+        public ViewUser()
         {
             InitializeComponent();
         }
@@ -196,8 +196,10 @@ namespace SkiPass.View
             });
         }
 
-        internal void NapuniFormu(User user)
+        public void NapuniFormu(User user)
         {
+            if (user == null)
+                return;
             UserID = user.UserID;
             txtFirstname.Text= user.Firstname;
             txtLastname.Text = user.Lastname;

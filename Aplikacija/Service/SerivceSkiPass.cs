@@ -49,7 +49,7 @@ namespace SkiPass.Service
                         list.Add(korisnik);
                     }
                     result.Value = list;
-                    result.isValid = true;
+                    result.IsValid = true;
                     result.Message = "Uspesno obavljeno.";
                 }
                 finally
@@ -85,7 +85,7 @@ namespace SkiPass.Service
                         list.Add(package);
                     }
                     result.Value = list;
-                    result.isValid = true;
+                    result.IsValid = true;
                     result.Message = "Uspesno obavljeno.";
                 }
                 finally
@@ -122,7 +122,7 @@ namespace SkiPass.Service
                 }
                 catch (Exception ex)
                 {
-                    result.isValid = false;
+                    result.IsValid = false;
                     result.Message = ex.Message;
                     return result;
                 }
@@ -136,22 +136,23 @@ namespace SkiPass.Service
 
         public ServiceResult InsertRental(DateTime dateFrom, DateTime dateTo, Package package, User user)
         {
-            ServiceResult result = new ServiceResult();
+            ServiceResult result = InsertSkiPass(package.PackageID);
+
+            if (!result.IsValid)
+                return result;
+
 
             using (var conn = new SqlConnection(ConnectionString))
-            using (var command = new SqlCommand("dbo.[SkiPass.InsertUser]", conn)
+            using (var command = new SqlCommand("dbo.[SkiPass.InsertRental]", conn)
             {
                 CommandType = CommandType.StoredProcedure
             })
             {
-                if (user.UserID.HasValue)
-                    command.Parameters.Add(new SqlParameter("@UserID", SqlDbType.BigInt)).Value = user.UserID;
-                command.Parameters.Add(new SqlParameter("@Firstname", SqlDbType.NVarChar)).Value = user.Firstname;
-                command.Parameters.Add(new SqlParameter("@Lastname", SqlDbType.NVarChar)).Value = user.Lastname;
-                command.Parameters.Add(new SqlParameter("@JMBG", SqlDbType.NVarChar)).Value = user.JMBG;
-                command.Parameters.Add(new SqlParameter("@DateOfBirth", SqlDbType.DateTime)).Value = user.DateOfBirth;
-                command.Parameters.Add(new SqlParameter("@Phone", SqlDbType.NVarChar)).Value = user.Phone;
-                command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar)).Value = user.Email;
+                command.Parameters.Add(new SqlParameter("@RentalDate", SqlDbType.DateTime)).Value = DateTime.Now;
+                command.Parameters.Add(new SqlParameter("@UserID", SqlDbType.BigInt)).Value = user.UserID;
+                command.Parameters.Add(new SqlParameter("@SkiPassID", SqlDbType.BigInt)).Value = (int)result.Value;
+                command.Parameters.Add(new SqlParameter("@ValidFrom", SqlDbType.DateTime)).Value = dateFrom;
+                command.Parameters.Add(new SqlParameter("@ValidTo", SqlDbType.DateTime)).Value = dateTo;
                 conn.Open();
                 try
                 {
@@ -159,7 +160,7 @@ namespace SkiPass.Service
                 }
                 catch (Exception ex)
                 {
-                    result.isValid = false;
+                    result.IsValid = false;
                     result.Message = ex.Message;
                     return result;
                 }
@@ -169,6 +170,192 @@ namespace SkiPass.Service
             }
             result.Message = "Uspešno obavljeno.";
             return result;
+        }
+
+        private ServiceResult InsertSkiPass(int packageID)
+        {
+            ServiceResult result = new ServiceResult();
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var adapter = new SqlDataAdapter()
+            {
+                SelectCommand = new SqlCommand("dbo.[SkiPass.InsertSkiPass]", conn)
+                { 
+                    CommandType = CommandType.StoredProcedure
+                }
+                
+            })
+            {
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@PackageID", SqlDbType.BigInt)).Value = packageID;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@Status", SqlDbType.Bit)).Value = 1;
+                conn.Open();
+                try
+                {
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "result_name");
+
+                    DataTable dt = ds.Tables["result_name"];
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        result.Value = Convert.ToInt32(row["ID"]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.Message = ex.Message;
+                    result.IsValid = false;
+                }
+                finally
+                {
+                }
+
+                return result;
+            }
+        }
+
+        public ServiceResult SelectSkiPass(int idSkiPass)
+        {
+            ServiceResult result = new ServiceResult();
+            decimal price = 0;
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("SelectSkiPass", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@SkiPassID", SqlDbType.BigInt)).Value = idSkiPass;
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        price = Convert.ToDecimal(reader["Price"]);
+                    }
+                    result.Value = price;
+                    result.IsValid = true;
+                    result.Message = "Uspesno obavljeno.";
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+
+            return result;
+        }
+
+        public ServiceResult SelectRegions()
+        {
+            ServiceResult result = new ServiceResult();
+            List<Region> list = new List<Region>();
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("SelectRegion", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        Region region = new Region()
+                        {
+                            RegionID = Convert.ToInt32(reader["RegionID"]),
+                            Name = Convert.ToString(reader["Name"])
+                        };
+                        list.Add(region);
+                    }
+                    result.Value = list;
+                    result.IsValid = true;
+                    result.Message = "Uspesno obavljeno.";
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+
+            return result;
+        }
+
+        public ServiceResult InsertPackageRegion(Package package, List<Region> regions)
+        {
+            ServiceResult result = InsertPackage(package.Name);
+
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("dbo.[InsertPackageRegion]", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                
+                command.Parameters.Add(new SqlParameter("@PackageID", SqlDbType.BigInt)).Value = (int)result.Value;
+                command.Parameters.Add(new SqlParameter("@RegionID", SqlDbType.BigInt));
+                conn.Open();
+
+                try
+                {
+                    foreach (Region reg in regions)
+                    {
+                        command.Parameters["@RegionID"].Value = reg.RegionID;
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.IsValid = false;
+                    result.Message = ex.Message;
+                    return result;
+                }
+                finally
+                {
+                }
+            }
+            result.Message = "Uspešno obavljeno.";
+            return result;
+        }
+
+        private ServiceResult InsertPackage(string name)
+        {
+            ServiceResult result = new ServiceResult();
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var adapter = new SqlDataAdapter()
+            {
+                SelectCommand = new SqlCommand("dbo.[InsertPackage]", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                }
+
+            })
+            {
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@PackageName", SqlDbType.NVarChar)).Value = name;
+                conn.Open();
+                try
+                {
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "result_name");
+
+                    DataTable dt = ds.Tables["result_name"];
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        result.Value = Convert.ToInt32(row["ID"]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.Message = ex.Message;
+                    result.IsValid = false;
+                }
+                finally
+                {
+                }
+
+                return result;
+            }
         }
     }
 }

@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Event\EventArgsPackage.cs" />
     <Compile Include="Event\EventArgsRental.cs" />
     <Compile Include="Event\EventArgsUser.cs" />
     <Compile Include="Event\EventHelper.cs" />
+    <Compile Include="Model\Region.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Package.cs" />
     <Compile Include="Presenter\BasePresenter.cs" />
@@ -59,9 +61,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ServiceResult.cs" />
-    <Compile Include="View\IVIewKorisnik.cs" />
+    <Compile Include="View\IVIewUser.cs" />
+    <Compile Include="View\IViewPackage.cs" />
     <Compile Include="View\IViewSkiPass.cs" />
-    <Compile Include="View\ViewKorisnik.cs">
+    <Compile Include="View\ViewUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ViewPackage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\ViewSkiPass.cs">
@@ -76,8 +82,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="View\ViewKorisnik.resx">
-      <DependentUpon>ViewKorisnik.cs</DependentUpon>
+    <EmbeddedResource Include="View\ViewPackage.resx">
+      <DependentUpon>ViewPackage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ViewUser.resx">
+      <DependentUpon>ViewUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ViewSkiPass.resx">
       <DependentUpon>ViewSkiPass.cs</DependentUpon>

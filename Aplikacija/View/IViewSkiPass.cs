@@ -12,11 +12,15 @@ namespace SkiPass.View
     {
         event EventHandler<EventArgsRental> EventHendlerInsertRental;
         event EventHandler<EventArgsUser> EventHendlerSaveUser;
+        event EventHandler<EventArgsPackage> EventHendlerSavePackage;
         event EventHandler EventHendlerRefresh;
+        List<Region> listRegion { get; set; }
 
         void ErrorMessage(string message);
         void InformationMessage(string message);
         void NapuniComboKorisnik(List<User> value);
         void NapuniComboPaketi(List<Package> value);
+        void ShowPrice(decimal price);
+        void SetRegions(List<Region> value);
     }
 }

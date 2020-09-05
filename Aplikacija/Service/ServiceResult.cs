@@ -9,7 +9,7 @@ namespace SkiPass.Service
     public class ServiceResult
     {
         public object Value { get; set; }
-        public bool isValid { get; set; } = true;
+        public bool IsValid { get; set; } = true;
         public string Message { get; set; }
     }
 }
