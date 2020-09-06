@@ -13,6 +13,7 @@ namespace SkiPass.View
         event EventHandler<EventArgsRental> EventHendlerInsertRental;
         event EventHandler<EventArgsUser> EventHendlerSaveUser;
         event EventHandler<EventArgsPackage> EventHendlerSavePackage;
+        event EventHandler<EventArgsPackage> EventHendlerUpdatePackage;
         event EventHandler EventHendlerRefresh;
         List<Region> listRegion { get; set; }
 

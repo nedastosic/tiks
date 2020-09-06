@@ -17,8 +17,15 @@ namespace SkiPass.View
         private Button btnSave;
         private Label label2;
         public event EventHandler<EventArgsPackage> EventHendlerSavePackage;
-        public event EventHandler EventHendlerSelectRegions;
+        public event EventHandler<EventArgsPackage> EventHendlerUpdatePackage;
+        public Mode ViewMode { get; set; } = Mode.NEW;
+        public Package CurrentPackage { get; set; }
 
+        public enum Mode
+        { 
+            NEW,
+            EDIT
+        }
         public ViewPackage()
         {
             InitializeComponent();
@@ -117,13 +124,25 @@ namespace SkiPass.View
 
         internal void NapuniFormu(Package package)
         {
-            
+            ViewMode = Mode.EDIT;
+            txtNamePackage.Text = package.Name;
+            CurrentPackage = package;
+
+            foreach (Region reg in grdRegions.DataSource as List<Region>)
+            {
+                if (package.Regions.Contains(reg))
+                    reg.Checked = true;
+            }
         }
 
         internal void FillRegions(List<Region> listRegion)
         {
+            foreach (Region reg in listRegion)
+                reg.Checked = false;
+
             grdRegions.DataSource = listRegion;
             grdRegions.Columns["RegionID"].Visible = false;
+            grdRegions.Columns["Status"].Visible = false;
 
             grdRegions.Columns["Name"].ReadOnly = true;
             grdRegions.Columns["Checked"].ReadOnly = false;
@@ -143,14 +162,52 @@ namespace SkiPass.View
                 return;
             }
 
-            EventHelper.Raise(this, EventHendlerSavePackage, new EventArgsPackage()
-            { 
-                Package = new Package()
+            switch (ViewMode)
+            {
+                case Mode.NEW:
+                    EventHelper.Raise(this, EventHendlerSavePackage, new EventArgsPackage()
+                    {
+                        Package = new Package()
+                        {
+                            Name = txtNamePackage.Text
+                        },
+                        Regions = (grdRegions.DataSource as List<Region>).FindAll(r => r.Checked)
+                    });
+                    break;
+                case Mode.EDIT:
+                    EventHelper.Raise(this, EventHendlerUpdatePackage, new EventArgsPackage()
+                    {
+                        Package = new Package()
+                        {
+                            PackageID = CurrentPackage.PackageID,
+                            Name = txtNamePackage.Text,
+                            Regions = GetEditedRegions((grdRegions.DataSource as List<Region>).FindAll(r => r.Checked))
+                        }
+                    }) ; 
+                    break;
+            }
+        }
+
+        private List<Region> GetEditedRegions(List<Region> newRegions)
+        {
+            List<Region> list = CurrentPackage.Regions;
+
+            foreach (Region reg in newRegions)
+            {
+                if (!CurrentPackage.Regions.Contains(reg))
                 {
-                    Name = txtNamePackage.Text
-                },
-                Regions = (grdRegions.DataSource as List<Region>).FindAll(r => r.Checked)
-            });
+                    reg.Status = Status.ADD;
+                    list.Add(reg);
+                }
+            }
+
+            foreach (Region reg in CurrentPackage.Regions)
+            { 
+                if(!newRegions.Contains(reg))
+                    reg.Status = Status.DELETE;
+            }
+
+            return list;
         }
     }
 }

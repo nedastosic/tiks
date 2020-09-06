@@ -36,6 +36,7 @@ namespace SkiPass.View
         public event EventHandler<EventArgsRental> EventHendlerInsertRental;
         public event EventHandler<EventArgsUser> EventHendlerSaveUser;
         public event EventHandler<EventArgsPackage> EventHendlerSavePackage;
+        public event EventHandler<EventArgsPackage> EventHendlerUpdatePackage;
         public event EventHandler EventHendlerRefresh;
         public List<Region> listRegion { get; set; }
         public ViewSkiPass()
@@ -199,12 +200,12 @@ namespace SkiPass.View
             this.contextMenuPackages.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changePackageToolStripMenuItem});
             this.contextMenuPackages.Name = "contextMenuPackages";
-            this.contextMenuPackages.Size = new System.Drawing.Size(164, 28);
+            this.contextMenuPackages.Size = new System.Drawing.Size(211, 56);
             // 
             // changePackageToolStripMenuItem
             // 
             this.changePackageToolStripMenuItem.Name = "changePackageToolStripMenuItem";
-            this.changePackageToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
+            this.changePackageToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.changePackageToolStripMenuItem.Text = "Izmeni paket";
             this.changePackageToolStripMenuItem.Click += new System.EventHandler(this.ChangePackageToolStripMenuItem_Click);
             // 
@@ -364,7 +365,7 @@ namespace SkiPass.View
         {
             if (cboPackage.SelectedItem is null)
             {
-                InformationMessage("Morate izabrati korisnika iz combo box-a.");
+                InformationMessage("Morate izabrati paket iz combo box-a.");
                 return;
             }
 
@@ -372,6 +373,11 @@ namespace SkiPass.View
             {
                 form.EventHendlerSavePackage -= this.EventHendlerSavePackageChildForm;
                 form.EventHendlerSavePackage += this.EventHendlerSavePackageChildForm;
+
+                form.EventHendlerUpdatePackage -= this.EventHendlerUpdatePackageChildForm;
+                form.EventHendlerUpdatePackage += this.EventHendlerUpdatePackageChildForm;
+
+                form.FillRegions(listRegion);
                 form.NapuniFormu(cboPackage.SelectedItem as Package);
                 form.ShowDialog();
             }
@@ -379,13 +385,14 @@ namespace SkiPass.View
             RefreshForm();
         }
 
-        private void EventHendlerSavePackageChildForm(object sender, EventArgsPackage e)
+        private void EventHendlerUpdatePackageChildForm(object sender, EventArgsPackage args)
         {
-            EventHelper.Raise(this, EventHendlerSavePackage, new EventArgsPackage()
-            {
-                Package = e.Package,
-                Regions = e.Regions
-            });
+            EventHelper.Raise(this, EventHendlerUpdatePackage, args);
+        }
+
+        private void EventHendlerSavePackageChildForm(object sender, EventArgsPackage args)
+        {
+            EventHelper.Raise(this, EventHendlerSavePackage, args);
         }
 
         public void ShowPrice(decimal price)

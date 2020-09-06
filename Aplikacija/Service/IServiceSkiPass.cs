@@ -17,5 +17,7 @@ namespace SkiPass.Service
         ServiceResult SelectSkiPass(int idSkiPass);
         ServiceResult SelectRegions();
         ServiceResult InsertPackageRegion(Package package, List<Region> regions);
+        List<Region> SelectRegionsByPackageId(int packageID);
+        ServiceResult UpdatePackage(Package package);
     }
 }

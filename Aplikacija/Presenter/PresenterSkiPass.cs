@@ -34,7 +34,19 @@ namespace SkiPass.Presenter
 
             _view.EventHendlerSavePackage -= EventHendlerSavePackage;
             _view.EventHendlerSavePackage += EventHendlerSavePackage;
+
+            _view.EventHendlerUpdatePackage -= EventHendlerUpdatePackage;
+            _view.EventHendlerUpdatePackage += EventHendlerUpdatePackage;
     }
+
+        private void EventHendlerUpdatePackage(object sender, EventArgsPackage e)
+        {
+            ServiceResult result = _service.UpdatePackage(e.Package);
+            if (result.IsValid)
+                _view.InformationMessage(result.Message);
+            else
+                _view.ErrorMessage(result.Message);
+        }
 
         private void EventHendlerSavePackage(object sender, EventArgsPackage e)
         {
@@ -49,6 +61,7 @@ namespace SkiPass.Presenter
         private void EventHendlerRefresh(object sender, EventArgs e)
         {
             NapuniComboKorisnik();
+            NapuniComboPaketiSP();
         }
 
         private void EventHendlerSaveUser(object sender, EventArgsUser e)
@@ -99,6 +112,12 @@ namespace SkiPass.Presenter
         private void NapuniComboPaketiSP()
         {
             ServiceResult result =  _service.SelectPackages();
+
+            foreach (Package package in (List<Package>)result.Value)
+            { 
+                package.Regions = _service.SelectRegionsByPackageId(package.PackageID);
+            }
+
             _view.NapuniComboPaketi((List<Package>)result.Value);
         }
 

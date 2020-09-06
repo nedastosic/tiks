@@ -250,7 +250,7 @@ namespace SkiPass.Service
             ServiceResult result = new ServiceResult();
             List<Region> list = new List<Region>();
             using (var conn = new SqlConnection(ConnectionString))
-            using (var command = new SqlCommand("SelectRegion", conn)
+            using (var command = new SqlCommand("SelectRegions", conn)
             {
                 CommandType = CommandType.StoredProcedure
             })
@@ -356,6 +356,120 @@ namespace SkiPass.Service
 
                 return result;
             }
+        }
+
+        public List<Region> SelectRegionsByPackageId(int packageID)
+        {
+            List<Region> list = new List<Region>();
+
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("SelectRegion", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@PackageID", SqlDbType.BigInt)).Value = packageID;
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        Region region = new Region()
+                        {
+                            RegionID = Convert.ToInt32(reader["RegionID"]),
+                            Name = Convert.ToString(reader["Name"]),
+                            Checked = true
+                        };
+                        list.Add(region);
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+            return list;
+        }
+
+        public ServiceResult UpdatePackage(Package package)
+        {
+            ServiceResult result = UpdatePackageName(package.PackageID, package.Name);
+            if (!result.IsValid)
+            {
+                result.Message = "Greška prilikom update-a paketa.";
+                result.IsValid = false;
+                return result;
+            }
+
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                try
+                {
+                    command.Parameters.Add(new SqlParameter("@PackageID", SqlDbType.BigInt)).Value = package.PackageID;
+                    command.Parameters.Add(new SqlParameter("@RegionID", SqlDbType.BigInt));
+                    conn.Open();
+                    foreach (Region reg in package.Regions)
+                    {
+                        command.Parameters["@RegionID"].Value = reg.RegionID;
+                        if (reg.Status == Status.DEFAULT)
+                            continue;
+
+                        if (reg.Status == Status.ADD)
+                            command.CommandText = "dbo.[InsertPackageRegion]";
+
+                        if (reg.Status == Status.DELETE)
+                            command.CommandText = "dbo.[DeleteRegionFromPackage]";
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.IsValid = false;
+                    result.Message = ex.Message;
+                    return result;
+                }
+                finally
+                {
+                }
+            }
+            result.Message = "Uspešno obavljeno.";
+            return result;
+        }
+
+        private ServiceResult UpdatePackageName(int packageID, string name)
+        {
+            ServiceResult result = new ServiceResult();
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var command = new SqlCommand("dbo.[UpdatePackage]", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                command.Parameters.Add(new SqlParameter("@PackageID", SqlDbType.NVarChar)).Value = packageID;
+                command.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar)).Value = name;
+                conn.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    result.IsValid = false;
+                    result.Message = ex.Message;
+                    return result;
+                }
+                finally
+                {
+                }
+            }
+            result.Message = "Uspešno obavljeno.";
+            return result;
         }
     }
 }

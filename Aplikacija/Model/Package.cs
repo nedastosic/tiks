@@ -10,5 +10,6 @@ namespace SkiPass.Model
     {
         public int PackageID { get; set; }
         public string Name { get; set; }
+        public List<Region> Regions { get; set; }
     }
 }
