@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SkiPass.Event;
@@ -181,6 +182,10 @@ namespace SkiPass.View
 
         private void ButtonZapisi_Click(object sender, EventArgs e)
         {
+            RequiredFields(txtFirstname.Text, txtLastname.Text, txtJMBG.Text, txtEmail.Text, txtPhone.Text, datDateOfBirtf.Value);
+            ValidationEmail(txtEmail.Text);
+            ValidationPhone(txtPhone.Text);
+
             EventHelper.Raise(this, EventHendlerSaveUser, new EventArgsUser()
             {
                 User = new User()
@@ -194,6 +199,32 @@ namespace SkiPass.View
                     JMBG = txtJMBG.Text
                 }
             });
+        }
+
+        public bool RequiredFields(string firstName, string lastName, string JMBG, string email, string phone, DateTime date)
+        {
+            if(string.IsNullOrEmpty(firstName) 
+                || string.IsNullOrEmpty(lastName) 
+                || string.IsNullOrEmpty(JMBG) 
+                || string.IsNullOrEmpty(email) 
+                || string.IsNullOrEmpty(phone) 
+                || string.IsNullOrEmpty(Convert.ToString(date)))
+                return false;
+            return true;
+        }
+
+        public bool ValidationPhone(string phone)
+        {
+            if (Regex.Match(phone, @"^[0-9]*$").Success 
+                || (phone.StartsWith("+381") && Regex.Match(phone.Substring(1), @"^[0-9]*$").Success))
+                return true;
+
+            return false;
+        }
+
+        public bool ValidationEmail(string email)
+        {
+            return Regex.IsMatch(email, @"^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$");
         }
 
         public void NapuniFormu(User user)

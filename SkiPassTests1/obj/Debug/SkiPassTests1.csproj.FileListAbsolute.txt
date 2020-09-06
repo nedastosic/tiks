@@ -1,0 +1,16 @@
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\SkiPassTests1.dll
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\SkiPassTests1.pdb
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\SkiPass.exe
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\SkiPass.pdb
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\SkiPass.exe.config
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\obj\Debug\SkiPassTests1.csprojAssemblyReference.cache
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\obj\Debug\SkiPassTests1.csproj.CopyComplete
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\obj\Debug\SkiPassTests1.dll
+C:\Users\Boba\source\repos\nedastosic\tiks\SkiPassTests1\obj\Debug\SkiPassTests1.pdb
