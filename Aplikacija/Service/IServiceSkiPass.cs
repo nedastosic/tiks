@@ -13,7 +13,7 @@ namespace SkiPass.Service
         ServiceResult SelectUsers();
         ServiceResult SelectPackages();
         ServiceResult SaveUpadateUser(User user);
-        ServiceResult InsertRental(DateTime dateFrom, DateTime dateTo, Package package, User user);
+        ServiceResult InsertRental(DateTime? dateFrom, DateTime? dateTo, Package package, User user);
         ServiceResult SelectSkiPass(int idSkiPass);
         ServiceResult SelectRegions();
         ServiceResult InsertPackageRegion(Package package, List<Region> regions);

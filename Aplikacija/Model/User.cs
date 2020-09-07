@@ -21,5 +21,10 @@ namespace SkiPass.Model
                 return Firstname + " " + Lastname;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            return ((User)obj).UserID == this.UserID ? true : false;
+        }
     }
 }

@@ -102,23 +102,35 @@ namespace SkiPass.Service
             ServiceResult result = new ServiceResult();
             
             using (var conn = new SqlConnection(ConnectionString))
-            using (var command = new SqlCommand("dbo.[SkiPass.InsertUser]", conn)
+            using (var adapter = new SqlDataAdapter()
             {
-                CommandType = CommandType.StoredProcedure
+                SelectCommand = new SqlCommand("dbo.[SkiPass.InsertUser]", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                }
+
             })
             {
-                if(user.UserID.HasValue)
-                    command.Parameters.Add(new SqlParameter("@UserID", SqlDbType.BigInt)).Value = user.UserID;
-                command.Parameters.Add(new SqlParameter("@Firstname", SqlDbType.NVarChar)).Value = user.Firstname;
-                command.Parameters.Add(new SqlParameter("@Lastname", SqlDbType.NVarChar)).Value = user.Lastname;
-                command.Parameters.Add(new SqlParameter("@JMBG", SqlDbType.NVarChar)).Value = user.JMBG;
-                command.Parameters.Add(new SqlParameter("@DateOfBirth", SqlDbType.DateTime)).Value = user.DateOfBirth;
-                command.Parameters.Add(new SqlParameter("@Phone", SqlDbType.NVarChar)).Value = user.Phone;
-                command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar)).Value = user.Email;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@UserID", SqlDbType.BigInt)).Value = user.UserID == null ? -2: user.UserID;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@Firstname", SqlDbType.NVarChar)).Value = user.Firstname;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@Lastname", SqlDbType.NVarChar)).Value = user.Lastname;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@JMBG", SqlDbType.NVarChar)).Value = user.JMBG;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@DateOfBirth", SqlDbType.DateTime)).Value = user.DateOfBirth;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@Phone", SqlDbType.NVarChar)).Value = user.Phone;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar)).Value = user.Email;
                 conn.Open();
                 try
                 {
-                    command.ExecuteNonQuery();
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "result_name");
+
+                    DataTable dt = ds.Tables["result_name"];
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        result.Value = Convert.ToInt32(row["ID"]);
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -134,7 +146,7 @@ namespace SkiPass.Service
             return result;
         }
 
-        public ServiceResult InsertRental(DateTime dateFrom, DateTime dateTo, Package package, User user)
+        public ServiceResult InsertRental(DateTime? dateFrom, DateTime? dateTo, Package package, User user)
         {
             ServiceResult result = InsertSkiPass(package.PackageID);
 
