@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<TST status="Failed" >
+  <SystemErrors>
+  </SystemErrors>
+    <SessionSetup status="Passed">
+          <Log entryType="Log">This is SQLTest_SESSION_SETUP</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+    </SessionSetup>
+  <Suites>
+    <Suite suiteName="Anonymous" testsCount="2" passedCount="1" ignoredCount="0" failedCount="1" >
+      <Tests>
+        <Test name="SQLTest_Test1" status="Failed" >
+          <Log entryType="Log">This is SQLTest_Test1</Log>
+          <Log entryType="Error">An error occured during the execution of the test procedure '[TSTCheckSessionLevelOutput].[dbo].[SQLTest_Test1]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Test1. Line: 8</Log>
+          <Log entryType="Error">The transaction is in an uncommitable state after the test procedure '[TSTCheckSessionLevelOutput].[dbo].[SQLTest_Test1]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.</Log>
+        </Test>
+        <Test name="SQLTest_Test2" status="Passed" >
+          <Log entryType="Log">This is SQLTest_Test2</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+        </Test>
+      </Tests>
+    </Suite>
+    <Suite suiteName="Suite1" testsCount="2" passedCount="1" ignoredCount="0" failedCount="1" >
+      <Tests>
+        <Test name="SQLTest_Suite1#TestA" status="Passed" >
+          <Log entryType="Log">This is SQLTest_SETUP_Suite1</Log>
+          <Log entryType="Log">This is SQLTest_Suite1#TestA</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_Suite1</Log>
+        </Test>
+        <Test name="SQLTest_Suite1#TestB" status="Failed" >
+          <Log entryType="Log">This is SQLTest_SETUP_Suite1</Log>
+          <Log entryType="Log">This is SQLTest_Suite1#TestB</Log>
+          <Log entryType="Failure">Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_Suite1</Log>
+        </Test>
+      </Tests>
+    </Suite>
+  </Suites>
+    <SessionTeardown status="Failed">
+          <Log entryType="Log">This is SQLTest_SESSION_TEARDOWN</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Failure">Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)</Log>
+    </SessionTeardown>
+</TST>

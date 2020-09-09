@@ -1,0 +1,68 @@
+ 
+    Suite: Anonymous. Tests: 6. Passed: 1. Ignored: 2. Failed: 3
+        Test: SQLTest_Test1. Failed
+            Log: This is SQLTest_Test1
+            Error: An error occured during the execution of the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Test1]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Test1. Line: 8
+            Error: The transaction is in an uncommitable state after the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Test1]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.
+        Test: SQLTest_Test2. Passed
+            Log: This is SQLTest_Test2
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+        Test: SQLTest_Test3. Failed
+            Log: This is SQLTest_Test3
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+        Test: SQLTest_TestIgnore1. Ignored
+            Log: This is SQLTest_Test1
+            Ignore: Ignore SQLTest_Test1
+        Test: SQLTest_TestIgnore2. Ignored
+            Log: This is SQLTest_Test2
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Ignore: Ignore SQLTest_Test2
+        Test: SQLTest_TestIgnoreAfterFail. Failed
+            Log: This is SQLTest_Test3
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+    Suite: AASuite1. Tests: 2. Passed: 2. Ignored: 0. Failed: 0
+        Test: SQLTest_AASuite1#TestA. Passed
+            Log: This is SQLTest_SETUP_AASuite1
+            Log: This is SQLTest_AASuite1#TestA
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Log: This is SQLTest_TEARDOWN_AASuite1
+        Test: SQLTest_AASuite1#TestB. Passed
+            Log: This is SQLTest_SETUP_AASuite1
+            Log: This is SQLTest_AASuite1#TestB
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Log: This is SQLTest_TEARDOWN_AASuite1
+    Suite: Ignore. Tests: 2. Passed: 0. Ignored: 2. Failed: 0
+        Test: SQLTest_Ignore#TestA. Ignored
+            Log: This is SQLTest_SETUP_Ignore
+            Ignore: Ignore suite SQLTest_SETUP_Ignore
+        Test: SQLTest_Ignore#TestB. Ignored
+            Log: This is SQLTest_SETUP_Ignore
+            Ignore: Ignore suite SQLTest_SETUP_Ignore
+    Suite: Suite2. Tests: 2. Passed: 1. Ignored: 0. Failed: 1
+        Test: SQLTest_Suite2#TestA. Passed
+            Log: This is SQLTest_SETUP_Suite2
+            Log: This is SQLTest_Suite2#TestA
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Log: This is SQLTest_TEARDOWN_Suite2
+        Test: SQLTest_Suite2#TestB. Failed
+            Log: This is SQLTest_SETUP_Suite2
+            Log: This is SQLTest_Suite2#TestB
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+            Log: This is SQLTest_TEARDOWN_Suite2
+    Suite: Suite3. Tests: 2. Passed: 1. Ignored: 0. Failed: 1
+        Test: SQLTest_Suite3#TestA. Failed
+            Log: This is SQLTest_SETUP_Suite3
+            Log: This is SQLTest_Suite3#TestA
+            Error: An error occured during the execution of the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Suite3#TestA]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Suite3#TestA. Line: 8
+            Error: The transaction is in an uncommitable state after the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Suite3#TestA]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.
+            Log: This is SQLTest_TEARDOWN_Suite3
+        Test: SQLTest_Suite3#TestB. Passed
+            Log: This is SQLTest_SETUP_Suite3
+            Log: This is SQLTest_Suite3#TestB
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Log: This is SQLTest_TEARDOWN_Suite3
+ 
+Total suites: 5. Total tests: 14. Test passed: 5. Test ignored: 4. Test failed: 5.
+ 
+TST Status: Failed
+ 

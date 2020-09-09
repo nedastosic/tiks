@@ -1,0 +1,32 @@
+ 
+    SESSION SETUP: Passed
+            Log: This is SQLTest_SESSION_SETUP
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+    Suite: Anonymous. Tests: 2. Passed: 1. Ignored: 0. Failed: 1
+        Test: SQLTest_Test1. Failed
+            Log: This is SQLTest_Test1
+            Error: An error occured during the execution of the test procedure '[TSTCheckSessionLevelOutput].[dbo].[SQLTest_Test1]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Test1. Line: 8
+            Error: The transaction is in an uncommitable state after the test procedure '[TSTCheckSessionLevelOutput].[dbo].[SQLTest_Test1]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.
+        Test: SQLTest_Test2. Passed
+            Log: This is SQLTest_Test2
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+    Suite: Suite1. Tests: 2. Passed: 1. Ignored: 0. Failed: 1
+        Test: SQLTest_Suite1#TestA. Passed
+            Log: This is SQLTest_SETUP_Suite1
+            Log: This is SQLTest_Suite1#TestA
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Log: This is SQLTest_TEARDOWN_Suite1
+        Test: SQLTest_Suite1#TestB. Failed
+            Log: This is SQLTest_SETUP_Suite1
+            Log: This is SQLTest_Suite1#TestB
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+            Log: This is SQLTest_TEARDOWN_Suite1
+    SESSION TEARDOWN: Failed
+            Log: This is SQLTest_SESSION_TEARDOWN
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+ 
+Total suites: 2. Total tests: 4. Test passed: 2. Test ignored: 0. Test failed: 2.
+ 
+TST Status: Failed
+ 

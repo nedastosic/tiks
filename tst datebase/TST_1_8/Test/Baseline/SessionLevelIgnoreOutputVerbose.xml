@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<TST status="Failed" >
+  <SystemErrors>
+  </SystemErrors>
+    <SessionSetup status="Failed">
+          <Log entryType="Log">This is SQLTest_SESSION_SETUP</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Error">The test session setup procedure cannot invoke Assert.Ignore. The Assert.Ignore can only be invoked by a suite setup or by a test procedure.</Log>
+          <Log entryType="Error">The test session will be aborted. No tests will be run. The execution will continue with the test session teardown.</Log>
+    </SessionSetup>
+    <SessionTeardown status="Failed">
+          <Log entryType="Log">This is SQLTest_SESSION_TEARDOWN</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Error">The test session teardown procedure cannot invoke Assert.Ignore. The Assert.Ignore can only be invoked by a suite setup or by a test procedure.</Log>
+    </SessionTeardown>
+</TST>

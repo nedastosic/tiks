@@ -1,0 +1,19 @@
+ 
+    SESSION SETUP: Passed
+            Log: This is SQLTest_SESSION_SETUP
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+    Suite: Suite1. Tests: 1. Passed: 1. Ignored: 0. Failed: 0
+        Test: SQLTest_Suite1#TestA. Passed
+            Log: This is SQLTest_SETUP_Suite1
+            Log: This is SQLTest_Suite1#TestA
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Log: This is SQLTest_TEARDOWN_Suite1
+    SESSION TEARDOWN: Failed
+            Log: This is SQLTest_SESSION_TEARDOWN
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+ 
+Total suites: 1. Total tests: 1. Test passed: 1. Test ignored: 0. Test failed: 0.
+ 
+TST Status: Failed
+ 

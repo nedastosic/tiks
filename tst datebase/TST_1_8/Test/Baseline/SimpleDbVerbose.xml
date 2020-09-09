@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<TST status="Failed" >
+  <SystemErrors>
+  </SystemErrors>
+  <Suites>
+    <Suite suiteName="Anonymous" testsCount="6" passedCount="1" ignoredCount="2" failedCount="3" >
+      <Tests>
+        <Test name="SQLTest_Test1" status="Failed" >
+          <Log entryType="Log">This is SQLTest_Test1</Log>
+          <Log entryType="Error">An error occured during the execution of the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Test1]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Test1. Line: 8</Log>
+          <Log entryType="Error">The transaction is in an uncommitable state after the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Test1]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.</Log>
+        </Test>
+        <Test name="SQLTest_Test2" status="Passed" >
+          <Log entryType="Log">This is SQLTest_Test2</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+        </Test>
+        <Test name="SQLTest_Test3" status="Failed" >
+          <Log entryType="Log">This is SQLTest_Test3</Log>
+          <Log entryType="Failure">Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)</Log>
+        </Test>
+        <Test name="SQLTest_TestIgnore1" status="Ignored" >
+          <Log entryType="Log">This is SQLTest_Test1</Log>
+          <Log entryType="Ignore">Ignore SQLTest_Test1</Log>
+        </Test>
+        <Test name="SQLTest_TestIgnore2" status="Ignored" >
+          <Log entryType="Log">This is SQLTest_Test2</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Ignore">Ignore SQLTest_Test2</Log>
+        </Test>
+        <Test name="SQLTest_TestIgnoreAfterFail" status="Failed" >
+          <Log entryType="Log">This is SQLTest_Test3</Log>
+          <Log entryType="Failure">Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)</Log>
+        </Test>
+      </Tests>
+    </Suite>
+    <Suite suiteName="AASuite1" testsCount="2" passedCount="2" ignoredCount="0" failedCount="0" >
+      <Tests>
+        <Test name="SQLTest_AASuite1#TestA" status="Passed" >
+          <Log entryType="Log">This is SQLTest_SETUP_AASuite1</Log>
+          <Log entryType="Log">This is SQLTest_AASuite1#TestA</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_AASuite1</Log>
+        </Test>
+        <Test name="SQLTest_AASuite1#TestB" status="Passed" >
+          <Log entryType="Log">This is SQLTest_SETUP_AASuite1</Log>
+          <Log entryType="Log">This is SQLTest_AASuite1#TestB</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_AASuite1</Log>
+        </Test>
+      </Tests>
+    </Suite>
+    <Suite suiteName="Ignore" testsCount="2" passedCount="0" ignoredCount="2" failedCount="0" >
+      <Tests>
+        <Test name="SQLTest_Ignore#TestA" status="Ignored" >
+          <Log entryType="Log">This is SQLTest_SETUP_Ignore</Log>
+          <Log entryType="Ignore">Ignore suite SQLTest_SETUP_Ignore</Log>
+        </Test>
+        <Test name="SQLTest_Ignore#TestB" status="Ignored" >
+          <Log entryType="Log">This is SQLTest_SETUP_Ignore</Log>
+          <Log entryType="Ignore">Ignore suite SQLTest_SETUP_Ignore</Log>
+        </Test>
+      </Tests>
+    </Suite>
+    <Suite suiteName="Suite2" testsCount="2" passedCount="1" ignoredCount="0" failedCount="1" >
+      <Tests>
+        <Test name="SQLTest_Suite2#TestA" status="Passed" >
+          <Log entryType="Log">This is SQLTest_SETUP_Suite2</Log>
+          <Log entryType="Log">This is SQLTest_Suite2#TestA</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_Suite2</Log>
+        </Test>
+        <Test name="SQLTest_Suite2#TestB" status="Failed" >
+          <Log entryType="Log">This is SQLTest_SETUP_Suite2</Log>
+          <Log entryType="Log">This is SQLTest_Suite2#TestB</Log>
+          <Log entryType="Failure">Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_Suite2</Log>
+        </Test>
+      </Tests>
+    </Suite>
+    <Suite suiteName="Suite3" testsCount="2" passedCount="1" ignoredCount="0" failedCount="1" >
+      <Tests>
+        <Test name="SQLTest_Suite3#TestA" status="Failed" >
+          <Log entryType="Log">This is SQLTest_SETUP_Suite3</Log>
+          <Log entryType="Log">This is SQLTest_Suite3#TestA</Log>
+          <Log entryType="Error">An error occured during the execution of the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Suite3#TestA]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Suite3#TestA. Line: 8</Log>
+          <Log entryType="Error">The transaction is in an uncommitable state after the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Suite3#TestA]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_Suite3</Log>
+        </Test>
+        <Test name="SQLTest_Suite3#TestB" status="Passed" >
+          <Log entryType="Log">This is SQLTest_SETUP_Suite3</Log>
+          <Log entryType="Log">This is SQLTest_Suite3#TestB</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_Suite3</Log>
+        </Test>
+      </Tests>
+    </Suite>
+  </Suites>
+</TST>

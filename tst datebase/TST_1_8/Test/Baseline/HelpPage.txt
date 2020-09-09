@@ -1,0 +1,73 @@
+
+TST.bat - The Setup/Runner for TST 1.8
+Usage: TST.bat [/? | /Help] 
+                   [/Server SqlServerName] 
+                   [/QuickStart]
+                   [/Setup /NoVerCheck /NoPause] |
+                   [ (
+                         [/RunAll   DatabaseToTest] |
+                         [/RunSuite DatabaseToTest SuiteName] |
+                         [/RunTest  DatabaseToTest TestName]
+                     )
+                     [/Verbose] [/XmlFormat PathToXmlFile] [/NoTimestamp]
+                   ]
+                   [/Set DatabaseName VariableName VariableValue] |
+                   [/Get] |
+                   [/UseEXIT]
+
+ /?             Will display this help page.
+ /Help          Will display this help page.
+ /Server        Specifies the SQL Server that will be used. 
+                Default is localhost.
+ /QuickStart    It will setup the TST Quick Start database.
+ /Setup         If specified, the script will create the TST 
+                database version 1.8
+                If the database 'TST' already exists and has 
+                a version older than 1.8 then 
+                it will be droped and recreated. 
+                If the database 'TST' version 1.8 already exists 
+                then the setup is aborted.
+                If TST.BAT is run with no parameter, then /Setup is assumed.
+ /NoVerCheck    Valid only with /Setup. If specified the script will
+                create the TST database even if it already exists
+                regardless of its existing version. 
+ /NoPause       Takes efect only when used with /Setup.
+                When specified the script will not display at the
+                end "Hit any key to exit".
+ /Force         Equivalent with /Setup /NoVerCheck /NoPause.
+ /RunAll        It will run all the TST test procedures 
+                from the database given by 'DatabaseToTest'
+ /RunSuite      It will run all the TST test procedures 
+                from the database given by 'DatabaseToTest' and which
+                belong to the suite given by SuiteName
+ /RunTest       It will run the TST test procedure with 
+                the name given by TestName from the database 
+                given by 'DatabaseToTest' 
+ /Verbose       If /Verbose is not specified then only summary data, 
+                failures and errors are included in the test report. 
+                If /Verbose is specified all entries including the 
+                informational log entries and the ‘Pass’ log entries are
+                included in the test report.
+ /XmlFormat     When specified it will dump the TST results
+                in the file given by PathToXmlFile
+ /NoTimestamp   When specified no timestamps and duration info will 
+                be generated. Used to suport internal verification 
+                scripts.
+ /Set           Will set a TST variable. 
+                TST variables are saved in the table Data.TSTVariables.
+                TST Variables are defined per test database.
+                Use NULL for the DatabaseName to set a global TST variable.
+ /Get           Will display the values for all TST variables. 
+ /UseEXIT       When specified it will set the ERRORLEVEL and exit 
+                the script with the EXIT command.
+                By default it will set the ERRORLEVEL by using 
+                Exit /B which does not cause the current DOS shell 
+                to be closed.
+                Using /UseEXIT is needed when integrating with some tools
+                in order to successfuly propagate the exit code. 
+
+Exit Code:
+    0 - Task(s) completed successfully.
+    1 - There were errors completing the task(s).
+        When the script is used to execute tests an exit code of 
+        1 indicates that there were errors or failures.

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<TST status="Failed" >
+  <SystemErrors>
+  </SystemErrors>
+    <SessionSetup status="Passed">
+          <Log entryType="Log">This is SQLTest_SESSION_SETUP</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+    </SessionSetup>
+  <Suites>
+    <Suite suiteName="Suite1" testsCount="1" passedCount="1" ignoredCount="0" failedCount="0" >
+      <Tests>
+        <Test name="SQLTest_Suite1#TestA" status="Passed" >
+          <Log entryType="Log">This is SQLTest_SETUP_Suite1</Log>
+          <Log entryType="Log">This is SQLTest_Suite1#TestA</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Log">This is SQLTest_TEARDOWN_Suite1</Log>
+        </Test>
+      </Tests>
+    </Suite>
+  </Suites>
+    <SessionTeardown status="Failed">
+          <Log entryType="Log">This is SQLTest_SESSION_TEARDOWN</Log>
+          <Log entryType="Pass">Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)</Log>
+          <Log entryType="Failure">Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)</Log>
+    </SessionTeardown>
+</TST>

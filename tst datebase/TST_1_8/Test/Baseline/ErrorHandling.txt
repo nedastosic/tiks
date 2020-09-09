@@ -1,0 +1,55 @@
+ 
+Invalid command line parameters.
+You cannot specify /NoVerCheck unless you specify /Setup.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You cannot specify /NoPause unless you specify /Setup.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You must specify the database to be tested.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You must specify the database to be tested.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You must specify the suite name.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You must specify the database to be tested.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You must specify the test name.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You cannot specify both /RunAll and /RunSuite.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You cannot specify both /RunAll and /RunTest.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You cannot specify both /RunSuite and /RunTest.
+Run TST.bat /?
+========================== 
+Invalid command line parameters. Unknown parameter: '/XmlResult'
+Run TST.bat /?
+========================== 
+Invalid command line parameters. Unknown parameter: '/XmlResult'
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You cannot specify /NoTimestamp unless you specify one of the /Run options.
+Run TST.bat /?
+========================== 
+Invalid command line parameters.
+You cannot specify /Verbose unless you specify one of the /Run options.
+Run TST.bat /?
+========================== 

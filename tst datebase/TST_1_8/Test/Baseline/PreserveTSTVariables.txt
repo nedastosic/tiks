@@ -1,0 +1,14 @@
+ 
+Setting TST in absence of the Data.TSTVariables table. 
+ 
+The TST database version 1.8 was successfully set-up.
+ 
+Setting TST while preserving the TST variables. 
+ 
+Restore TST Variable: DB=DB1 Name=SqlTestPrefix Value=DB1_P2_
+Restore TST Variable: DB=DB2 Name=SqlTestPrefix Value=DB2_P2_
+Restore TST Variable: DB=NULL Name=SqlTestPrefix Value=NULL_P2_
+The TST database version 1.8 was successfully set-up.
+Database=DB1, VariableName=SqlTestPrefix, VariableValue=DB1_P2_
+Database=DB2, VariableName=SqlTestPrefix, VariableValue=DB2_P2_
+Database=NULL, VariableName=SqlTestPrefix, VariableValue=NULL_P2_

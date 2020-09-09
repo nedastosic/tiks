@@ -1,0 +1,32 @@
+ 
+    Suite: Anonymous. Tests: 6. Passed: 1. Ignored: 2. Failed: 3
+        Test: SQLTest_Test1. Failed
+            Error: An error occured during the execution of the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Test1]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Test1. Line: 8
+            Error: The transaction is in an uncommitable state after the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Test1]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.
+        Test: SQLTest_Test2. Passed
+        Test: SQLTest_Test3. Failed
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+        Test: SQLTest_TestIgnore1. Ignored
+        Test: SQLTest_TestIgnore2. Ignored
+        Test: SQLTest_TestIgnoreAfterFail. Failed
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+    Suite: AASuite1. Tests: 2. Passed: 2. Ignored: 0. Failed: 0
+        Test: SQLTest_AASuite1#TestA. Passed
+        Test: SQLTest_AASuite1#TestB. Passed
+    Suite: Ignore. Tests: 2. Passed: 0. Ignored: 2. Failed: 0
+        Test: SQLTest_Ignore#TestA. Ignored
+        Test: SQLTest_Ignore#TestB. Ignored
+    Suite: Suite2. Tests: 2. Passed: 1. Ignored: 0. Failed: 1
+        Test: SQLTest_Suite2#TestA. Passed
+        Test: SQLTest_Suite2#TestB. Failed
+            Failure: Assert.Equals failed. [Test failing Assert.Equals] Test value: 1 (int). Actual value: 2 (int)
+    Suite: Suite3. Tests: 2. Passed: 1. Ignored: 0. Failed: 1
+        Test: SQLTest_Suite3#TestA. Failed
+            Error: An error occured during the execution of the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Suite3#TestA]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_Suite3#TestA. Line: 8
+            Error: The transaction is in an uncommitable state after the test procedure '[TSTCheckSimple].[dbo].[SQLTest_Suite3#TestA]' has failed. A rollback was forced. The TEARDOWN if any will be executed outside of a transaction scope.
+        Test: SQLTest_Suite3#TestB. Passed
+ 
+Total suites: 5. Total tests: 14. Test passed: 5. Test ignored: 4. Test failed: 5.
+ 
+TST Status: Failed
+ 

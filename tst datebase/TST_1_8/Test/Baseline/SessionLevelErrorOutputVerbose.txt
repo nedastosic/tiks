@@ -1,0 +1,15 @@
+ 
+    SESSION SETUP: Failed
+            Log: This is SQLTest_SESSION_SETUP
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Error: An error occured during the execution of the test procedure '[TSTCheckSessionLevelOutput].[dbo].[SQLTest_SESSION_SETUP]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_SESSION_SETUP. Line: 17
+            Error: The test session will be aborted. No tests will be run. The execution will continue with the test session teardown.
+    SESSION TEARDOWN: Failed
+            Log: This is SQLTest_SESSION_TEARDOWN
+            Pass: Assert.Equals passed. [Test passing Assert.Equals] Test value: 1 (int). Actual value: 1 (int)
+            Error: An error occured during the execution of the test procedure '[TSTCheckSessionLevelOutput].[dbo].[SQLTest_SESSION_TEARDOWN]'. Error: 245, Conversion failed when converting the varchar value 'null' to data type int. Procedure: SQLTest_SESSION_TEARDOWN. Line: 17
+ 
+Total suites: 2. Total tests: 4. Test passed: 0. Test ignored: 0. Test failed: 0.
+ 
+TST Status: Failed
+ 

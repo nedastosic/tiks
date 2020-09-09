@@ -1,0 +1,19 @@
+ 
+    Suite: Anonymous. Tests: 9. Passed: 9. Ignored: 0. Failed: 0
+        Test: SQLTest_AssertSample. Passed
+        Test: SQLTest_ExpectedError. Passed
+        Test: SQLTest_GetSampleTable. Passed
+        Test: SQLTest_QFn_GetEmployeeAllReports. Passed
+        Test: SQLTest_QFn_GetSampleTable. Passed
+        Test: SQLTest_QFn_TinyintToBinary. Passed
+        Test: SQLTest_RolledBackOperation. Passed
+        Test: SQLTest_SampleView. Passed
+        Test: SQLTest_SimplestTest. Passed
+    Suite: EmployeeOperations. Tests: 2. Passed: 2. Ignored: 0. Failed: 0
+        Test: SQLTest_EmployeeOperations#DeleteEmployee. Passed
+        Test: SQLTest_EmployeeOperations#UpdateEmployee. Passed
+ 
+Total suites: 2. Total tests: 11. Test passed: 11. Test ignored: 0. Test failed: 0.
+ 
+TST Status: Passed
+ 
